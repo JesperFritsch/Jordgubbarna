@@ -1,0 +1,59 @@
+/* some very basic styling to make it somewhat less boring */
+
+body {
+    background-color: gainsboro;
+    display: flex;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    justify-content: center;
+}
+
+table {
+    border-spacing: 1em 0.5em;
+}
+
+th {
+    text-align: left;
+}
+
+.main-content {
+    background-color: rgb(230, 228, 228);
+    border: 2px solid white;
+    border-radius: 0.5em;
+    min-width: 400px;
+    padding: 2rem;
+    width: 70%;
+}
+
+.messages {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+
+    background-color: rgb(255, 145, 43);
+    opacity: 75%;
+}
+
+.flash {
+    background-color: rgb(230, 228, 228);
+    border: 2px solid white;
+    border-radius: 0.5em;
+    margin-bottom: 1em;
+    padding: 2em;
+}
+
+.tae {
+    text-align: end;
+}
+
+@media screen {
+    caption {
+        display: none;
+    }
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Example Web Service</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="main-content">
+        <header>
+            {% block header %}{% endblock %}
+        </header>
+
+        <main>
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+
+        {% set messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
+
+    <script>
+        let messages = document.getElementsByClassName("messages")
+        for (const msg of messages) {
+            msg.addEventListener('click', () => msg.style.display = "none")
+        }
+    </script>
+</body>
+</html>

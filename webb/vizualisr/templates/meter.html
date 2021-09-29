@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>Meter {{meter}} - channel {{ channel }}</h1>
+{% endblock %}
+
+{% block content %}
+  <table>
+    <caption>Measurement values for {{meter}}:{{ channel }}</caption>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Value</th>
+      <th scope="col">Unit</th>
+    </tr>
+  {% for value in measurements %}
+    <tr>
+        <td>{{ value[0] }}</td>
+        <td class="tae">{{ value[1] }}</td>
+        <td>{{ value[2] }}</td>
+    </tr>
+  {% endfor %}
+  </table>
+{% endblock %}
