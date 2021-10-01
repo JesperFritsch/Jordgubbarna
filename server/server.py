@@ -35,6 +35,7 @@ def on_message(client, userdata, msg):
         number_of_channels = (len(msg.payload[12:]) / 6)
         msg_to_file = int(number_of_channels).to_bytes(1, "big") + msg.payload
         meas_file.write(msg_to_file)
+        meas_file.flush()
         meas_file.close()
 
         print(number_of_channels)

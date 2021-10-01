@@ -18,23 +18,23 @@ UNITS = {
     0: "°C",
     1: "RH"
 }
-meters = {}
 # This is a placeholder that returns a fixed set of meters
 # in a proper system this would look in a database or in
 # the file system for a list of meters in the system
 def get_meters():
+    meters = []
     with open(ID_file, "r") as file_id:
         data = file_id.readlines()
         for line in data:
-            meters[int(line.strip(), base=16)] = []
+            meters.append(int(line.strip(), base=16))
         return meters
     
 def get_channels(meter):
     with open(f"{path_to_project}{meter}.bin", "rb") as file_val:
         channels = []
-        for i in range(20):
+        while True:
             num_channels = int.from_bytes(file_val.read(1), "big")
-            if num_channels == None:
+            if num_channels is 0:
                 break
             file_val.read(12)
             data = file_val.read(6 * num_channels)
@@ -42,29 +42,46 @@ def get_channels(meter):
                 channel, val, unit = struct.unpack_from("!BiB", data, (6 * n))
                 if channel not in channels:
                     channels.append(channel)
-        #meters[meter] = channels
         return channels
 
 # This is a placeholder that returns a fixed set of 
 # measurement data. In a proper system this would read
 # the data from a database or the file system
 def get_measurements(meter, channel):
-    if (int(channel)) not in meters[meter]:
+    packets = []
+    with open(f"{path_to_project}{meter}.bin", "rb") as file_val:
+        while True:
+            num_channels = int.from_bytes(file_val.read(1), "big")
+            if num_channels == 0:
+                break
+            data = file_val.read(12)
+            packet = file_val.read(6 * num_channels)
+            id, time_sec = struct.unpack("!QI", data)
+            for n in range(num_channels):
+                channel_index, value, unit = struct.unpack_from("!BiB", packet, (6 * n))
+                if channel_index == channel:
+                    packets.append((time_sec, value, unit))
+    #if (int(channel)) not in meters[meter]:
         # the function flash() is part of the flask system and lets us
         # register error/warning messages that should be shown on the
         # web page.
-        flash(f"The meter {meter} with channel {channel} does not exist.")
-        return []
+       # flash(f"The meter {meter} with channel {channel} does not exist.")
+       # return []
     # this just generates a fixed set of measurement values
     # to have something to show...
-    buffer = file_id.readlines()
-    file_id.seek(0)
     measurements = []
-    time = 1624537020
-    for i in range(20):
+    num_packets = len(packets)
+    if num_packets < 20:
+        inter = num_packets
+    else:
+        inter = 20
+        
+    for i in range(inter):
+        time = packets[-(i+1)][0]
+        value = packets[-(i+1)][1]
+        unit = packets[-(i+1)][2]
         date = datetime.datetime.fromtimestamp(time)
-        measurements.append((date, buffer[-(i+1)], UNITS[0]))
-        time = time - 10 * 60
+        measurements.append((date, value, UNITS[unit]))
     return measurements
 
 # @app.route registers a handler for a specific URL
@@ -85,9 +102,9 @@ def start_page():
 @app.route("/meter/<meter>")
 def show_channels(meter):
     channels = get_channels(hex(int(meter)))
-    return render_template("channels.html", channels=channels)
+    return render_template("channels.html", channels=channels, meter=meter)
 
 @app.route("/meter/<meter>/channel/<channel>")
 def show_measurements(meter, channel):
-    measurements = get_measurements(meter, channel)
+    measurements = get_measurements(hex(int(meter)), int(channel))
     return render_template("meter.html", meter=meter, channel=channel, measurements=measurements)
