@@ -3,8 +3,8 @@ import struct
 import datetime
 
 #meas_file = "C:/Users/Jes_p/OneDrive/Dokument/python_work/Jordgubbarna/exempelkod_projekt/hardv-python-example/measurements.bin"
-ID_file = "C:/Users/Jes_p/OneDrive/Dokument/python_work/Jordgubbarna/exempelkod_projekt/hardv-python-example/prog_files/ID_file.txt"
-some_path = "C:/Users/Jes_p/OneDrive/Dokument/python_work/Jordgubbarna/exempelkod_projekt/hardv-python-example/prog_files/"
+ID_file = "C:/Users/Jes_p/OneDrive/Dokument/python_work/Jordgubbarna/prog_files/ID_file.txt"
+path_to_project = "C:/Users/Jes_p/OneDrive/Dokument/python_work/Jordgubbarna/prog_files/"
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
@@ -26,18 +26,18 @@ def on_message(client, userdata, msg):
         file_id.seek(0)
         id_list = file_id.readlines()
         print(id_list)
-        if not str(f"{id}\n") in id_list:
-            file_id.write(f"{id}\n")
-            meas_file = open(f"{some_path}{id}.bin", "wb")
+        if not str(f"{id:#0x}\n") in id_list:
+            file_id.write(f"{id:#0x}\n")
+            meas_file = open(f"{path_to_project}{id:#0x}.bin", "wb")
             file_id.flush()
         else:
-            meas_file = open(f"{id}.bin", "ab")
-        number_of_meters = (len(msg.payload[12:]) / 6)
-        msg_to_file = int(number_of_meters).to_bytes(1, "big") + msg.payload
+            meas_file = open(f"{path_to_project}{id:#0x}.bin", "ab")
+        number_of_channels = (len(msg.payload[12:]) / 6)
+        msg_to_file = int(number_of_channels).to_bytes(1, "big") + msg.payload
         meas_file.write(msg_to_file)
         meas_file.close()
 
-        print(number_of_meters)
+        print(number_of_channels)
 
         date = datetime.datetime.fromtimestamp(time_sec)
         print(f"{date}: {id:#0x}")

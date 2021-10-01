@@ -1,0 +1,11 @@
+{% block header %}
+  <h1>Available measurement data</h1>
+{% endblock %}
+
+{% block content %}
+  <ul>
+  {% for channel in channels %}
+    <li><a href="/meter/{{meter}}/channels/{{ channel }}">{{ channel }}</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}
