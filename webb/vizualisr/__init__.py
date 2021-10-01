@@ -3,8 +3,8 @@ from flask import Flask, render_template, flash
 import datetime
 import struct
 
-ID_file = "C:/Users/Jes_p/OneDrive/Dokument/python_work/Jordgubbarna/prog_files/ID_file.txt"
-path_to_project = "C:/Users/Jes_p/OneDrive/Dokument/python_work/Jordgubbarna/prog_files/"
+ID_file = "C:/Users/Jes_p/OneDrive/Dokument/python_work/Jordgummorna/Jordgubbarna/prog_files/ID_file.txt"
+path_to_project = "C:/Users/Jes_p/OneDrive/Dokument/python_work/Jordgummorna/Jordgubbarna/prog_files/"
 # This creates the flask application and configures it
 # flask run will use this to start the application properly
 app = Flask(__name__)
@@ -26,7 +26,7 @@ def get_meters():
     with open(ID_file, "r") as file_id:
         data = file_id.readlines()
         for line in data:
-            meters.append(int(line.strip(), base=16))
+            meters.append(line.strip())
         return meters
     
 def get_channels(meter):
@@ -80,6 +80,7 @@ def get_measurements(meter, channel):
         time = packets[-(i+1)][0]
         value = packets[-(i+1)][1]
         unit = packets[-(i+1)][2]
+        value = float(value / 1000)
         date = datetime.datetime.fromtimestamp(time)
         measurements.append((date, value, UNITS[unit]))
     return measurements
@@ -101,10 +102,10 @@ def start_page():
 
 @app.route("/meter/<meter>")
 def show_channels(meter):
-    channels = get_channels(hex(int(meter)))
+    channels = get_channels(meter)
     return render_template("channels.html", channels=channels, meter=meter)
 
 @app.route("/meter/<meter>/channel/<channel>")
 def show_measurements(meter, channel):
-    measurements = get_measurements(hex(int(meter)), int(channel))
+    measurements = get_measurements(meter, int(channel))
     return render_template("meter.html", meter=meter, channel=channel, measurements=measurements)

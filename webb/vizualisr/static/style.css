@@ -16,8 +16,8 @@ th {
 }
 
 .main-content {
-    background-color: rgb(230, 228, 228);
-    border: 2px solid white;
+    background-color: rgba(228, 118, 15, 0.26);
+    border: 2px solid rgb(179, 99, 99);
     border-radius: 0.5em;
     min-width: 400px;
     padding: 2rem;
