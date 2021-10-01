@@ -60,7 +60,7 @@ try:
     client.on_connect = on_connect
     client.on_message = on_message
 
-    client.connect("broker.hivemq.com", port=1883, keepalive=60)
+    client.connect("localhost", port=1883, keepalive=60)
 
     # Blocking call that processes network traffic, dispatches callbacks and
     # handles reconnecting.

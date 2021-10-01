@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>Available measurement data</h1>
+  <h1>Available devices</h1>
+  
 {% endblock %}
 
 {% block content %}
   <ul>
   {% for meter in meters %}
-    <li><a href="/meter/{{ meter }}">ID: {{ meter }}</a></li>
+    <li><a style="color: black;" href="/meter/{{ meter }}">ID: {{ meter }}</a></li>
   {% endfor %}
   </ul>
 {% endblock %}

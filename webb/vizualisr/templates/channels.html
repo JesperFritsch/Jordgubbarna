@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>Available measurement data</h1>
+  <h1>Available channels</h1>
 {% endblock %}
 
 {% block content %}
   <ul>
   {% for channel in channels %}
-    <li><a href="/meter/{{meter}}/channel/{{channel}}">{{channel}}</a></li>
+    <li><a style="color: black;" href="/meter/{{meter}}/channel/{{channel}}">{{channel}}</a></li>
   {% endfor %}
   </ul>
 {% endblock %}

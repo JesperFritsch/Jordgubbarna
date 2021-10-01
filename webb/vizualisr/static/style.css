@@ -1,7 +1,7 @@
 /* some very basic styling to make it somewhat less boring */
 
 body {
-    background-color: gainsboro;
+    background-color: rgba(2, 0, 0, 0.699);
     display: flex;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     justify-content: center;
@@ -13,10 +13,11 @@ table {
 
 th {
     text-align: left;
+    color: black;
 }
 
 .main-content {
-    background-color: rgba(228, 118, 15, 0.26);
+    background-color: rgba(226, 169, 116, 0.637);
     border: 2px solid rgb(179, 99, 99);
     border-radius: 0.5em;
     min-width: 400px;

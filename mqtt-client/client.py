@@ -70,4 +70,4 @@ while True:
     # publish the data to the topic some/topic
     # using the packed struct as payload and
     # MQTT QoS set to 1
-    client.publish("some/topic", payload=data, qos=1)
+    client.publish("jmj/project", payload=data, qos=1)
