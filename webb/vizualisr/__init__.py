@@ -78,11 +78,11 @@ def get_measurements(meter, channel):
     measurements = []
     num_packets = len(packets)
     if num_packets < 20:
-        inter = num_packets
+        iter = num_packets
     else:
-        inter = 20
+        iter = 20
         
-    for i in range(inter):
+    for i in range(iter):
         time = packets[-(i+1)][0]
         value = packets[-(i+1)][1]
         unit = packets[-(i+1)][2]
