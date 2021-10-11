@@ -1,21 +1,28 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d2721cb8ba7148e86930c47662bd38075f69b3d8b6d530c4a5ae47bbdc9aa50b"
+            "sha256": "d6fa47155cea3b9288311c59984c8e1616aab8fb556068023de31c425dc43af9"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.9"
+            "python_version": "3"
         },
         "sources": [
             {
                 "name": "pypi",
-                "url": "https://pypi.org/simple",
+                "url": "https://pypi.python.org/simple",
                 "verify_ssl": true
             }
         ]
     },
     "default": {
+        "adafruit-python-dht": {
+            "hashes": [
+                "sha256:ac404e4c22838810272a00c68bc8f9892b3fa8ffdd5ff84e80193d0c2c2f9d18"
+            ],
+            "index": "pypi",
+            "version": "==1.4.0"
+        },
         "paho-mqtt": {
             "hashes": [
                 "sha256:9feb068e822be7b3a116324e01fb6028eb1d66412bf98595ae72698965cb1cae"

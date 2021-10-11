@@ -1,12 +1,13 @@
 [[source]]
-url = "https://pypi.org/simple"
+url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
 [packages]
 paho-mqtt = "*"
+adafruit-python-dht = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3"
