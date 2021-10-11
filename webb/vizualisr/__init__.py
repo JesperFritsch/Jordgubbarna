@@ -28,9 +28,13 @@ def get_meters():
         for line in data:
             meters.append(line.strip())
         return meters
+
 # Tar in meters-listan med våra id-nummer och läser av de binära filerna med mätvärden mm.
 # Sedan läser vi in första byten för att kolla hur många kanaler enheten har. Om noll bryts loopen.
-# Vi hoppar 12 bytes fram i filen, förbi Id och tid. Läser in (6 * antal kanaler)      
+# file_val.read(12) => Vi hoppar 12 bytes fram i filen, förbi Id och tid. 
+# Packar upp meddlandet och kollar om channel inte finns dict channels.
+# Om inte läggs den och mätenhetens enhet {unit} in i dictionarie. 
+# Sedan returneras dictionarie.
 def get_channels(meter):
     with open(f"{path_to_project}{meter}.bin", "rb") as file_val:
         channels = {}
@@ -46,9 +50,13 @@ def get_channels(meter):
                     channels[channel] = unit
         return channels
 
-# This is a placeholder that returns a fixed set of 
-# measurement data. In a proper system this would read
-# the data from a database or the file system
+# Tar inparametrarna meter, channel och läser de binära filerna med data.
+# Läser av hur många kanaler, om noll bryts loopen.
+# file_val.read(12) => Vi hoppar 12 bytes fram i filen, förbi Id och tid.
+# packet läser in hur många kanaler, mätvärden och mätenheter som ligger i filen.
+# Packar upp Id samt tiden.
+# I loopen packas sedan dessa meddelanden upp och om kanalerna är samma
+# blir tiden, mätvärdet och mätenheten tillagda i listan packets.
 def get_measurements(meter, channel):
     packets = []
     with open(f"{path_to_project}{meter}.bin", "rb") as file_val:
@@ -63,14 +71,7 @@ def get_measurements(meter, channel):
                 channel_index, value, unit = struct.unpack_from("!BiB", packet, (6 * n))
                 if channel_index == channel:
                     packets.append((time_sec, value, unit))
-    #if (int(channel)) not in meters[meter]:
-        # the function flash() is part of the flask system and lets us
-        # register error/warning messages that should be shown on the
-        # web page.
-       # flash(f"The meter {meter} with channel {channel} does not exist.")
-       # return []
-    # this just generates a fixed set of measurement values
-    # to have something to show...
+
     measurements = []
     num_packets = len(packets)
     if num_packets < 20:
@@ -86,27 +87,23 @@ def get_measurements(meter, channel):
         date = datetime.datetime.fromtimestamp(time)
         measurements.append((date, value, UNITS[unit]))
     return measurements
-
-# @app.route registers a handler for a specific URL
-# in this case the URL / (i.e. the root of the server)
-
+    
+# Läser filen ID_file.txt
 file_id = open(ID_file, 'r+')
-#file_id.truncate(0)
 @app.route("/")
+
+# Skickar in Id-nummer och visar dessa på start sidan.
 def start_page():
     meters = get_meters()
     return render_template("start.html", meters=meters)
 
-    # using @app.route with <something> makes "something" into
-    # a path variable. In the case /meter/1234/channel/5678
-    # the meter-argument would be set to (the string!) 1234
-    # and channel to 5678.
-
+# Skickar in Id-nummer och hämtar sedan kanalerna.
 @app.route("/meter/<meter>")
 def show_channels(meter):
     channels = get_channels(meter)
     return render_template("channels.html", channels=channels, meter=meter)
 
+# Skickar in Id-nummer och kanal, hämtar sedan resterande av datapacketet.
 @app.route("/meter/<meter>/channel/<channel>")
 def show_measurements(meter, channel):
     measurements = get_measurements(meter, int(channel))
