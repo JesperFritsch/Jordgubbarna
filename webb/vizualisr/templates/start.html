@@ -5,10 +5,15 @@
   
 {% endblock %}
 
+
 {% block content %}
-  <ul>
-  {% for meter in meters %}
-    <li><a style="color: black;" href="/meter/{{ meter }}">ID: {{ meter }}</a></li>
-  {% endfor %}
-  </ul>
+  {% if meters[0] %}
+    <ul>
+    {% for meter in meters %}
+      <li><a style="color: black;" href="/meter/{{ meter }}">ID: {{ meter }}</a></li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no avalible devices.</p>
+  {% endif %}
 {% endblock %}

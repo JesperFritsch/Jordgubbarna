@@ -33,7 +33,7 @@ def get_channels(meter):
         channels = {}
         while True:
             num_channels = int.from_bytes(file_val.read(1), "big")
-            if num_channels is 0:
+            if num_channels == 0:
                 break
             file_val.read(12)
             data = file_val.read(6 * num_channels)

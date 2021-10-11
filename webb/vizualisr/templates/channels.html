@@ -7,9 +7,9 @@
 {% block content %}
   <ul>
   {% for channel, unit in channels.items() %}
-    {% if unit == 0%}
+    {% if unit == 0 %}
     <li><a style="color: black;" href="/meter/{{meter}}/channel/{{channel}}">Channel: {{channel}} Temperature</a></li>
-    {% elif unit == 1%}
+    {% elif unit == 1 %}
     <li><a style="color: black;" href="/meter/{{meter}}/channel/{{channel}}">Channel: {{channel}} Humidity</a></li>
     {% endif %}
   {% endfor %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>Meter {{meter}} - channel {{ channel }}</h1>
+  <h1>Device {{meter}} - channel {{ channel }}</h1>
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,11 @@
   {% for value in measurements %}
     <tr>
         <td>{{ value[0] }}</td>
+        {% if value[2] == "RH" %}
+        <td class="tae">{{ value[1] }}%</td>
+        {% else %}
         <td class="tae">{{ value[1] }}</td>
+        {% endif %}
         <td>{{ value[2] }}</td>
     </tr>
   {% endfor %}
