@@ -5,7 +5,7 @@ import random
 import struct
 import Adafruit_DHT
 
-# initialize random number generator
+# initierar slumptalsgenerator
 temperature_file = "/sys/bus/w1/devices/28-20320e0f8cf0/temperature"
 id_file = "/home/pi/python_project/Jordgubbarna/sensor_data_pi/ID.txt"
 pin = 23
