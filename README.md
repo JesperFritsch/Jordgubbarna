@@ -6,8 +6,11 @@ Visningsprogram - webb
 Elschema
 
 Extra tillval:
+
 Automatiskt uppstart
+
 Github
+
 Pipenv
 
 1. Koppla enligt kopplingsschemat.
