@@ -6,3 +6,4 @@
 6. Kör kommandot: "pipenv shell"
 7. Kör kommandot: "$Env:FLASK_APP="vizualisr""
 8. Kör kommandot: flask run
+9. Du kommer se en länk i terminalen som tar dig vidare till hemsidan. (CTRL + click) om du vill öppna direkt.
