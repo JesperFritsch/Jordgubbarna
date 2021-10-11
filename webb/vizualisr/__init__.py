@@ -2,24 +2,25 @@ from flask import Flask, render_template, flash
 import datetime
 import struct
 
+# Sökväg till ID-file.
 ID_file = "C:/Users/Jes_p/OneDrive/Dokument/python_work/Jordgummorna/Jordgubbarna/prog_files/ID_file.txt"
+# Sökväg till de binära filerna.
 path_to_project = "C:/Users/Jes_p/OneDrive/Dokument/python_work/Jordgummorna/Jordgubbarna/prog_files/"
-# This creates the flask application and configures it
-# flask run will use this to start the application properly
+# Skapar flask aplikationen och konfigrerar den.
+# flask run använder sig av denna för att starta aplikationen korrekt.
 app = Flask(__name__)
 app.config.from_mapping(
-    # This is the session key. It should be a REALLY secret key!
     SECRET_KEY="553e6c83f0958878cbee4508f3b28683165bf75a3afe249e"
 )
-#hej
-# The mapping of units in accordance with our specification
+
+# Våra mätvärdens enheter.
 UNITS = {
     0: "°C",
     1: "RH"
 }
-# This is a placeholder that returns a fixed set of meters
-# in a proper system this would look in a database or in
-# the file system for a list of meters in the system
+
+# Hämtar alla våra enheters ID-nummer i ID-file.txt samt lägger till dessa i en lista utan "\n" 
+# och returnerar dessa.
 def get_meters():
     meters = []
     with open(ID_file, "r") as file_id:
@@ -27,7 +28,9 @@ def get_meters():
         for line in data:
             meters.append(line.strip())
         return meters
-    
+# Tar in meters-listan med våra id-nummer och läser av de binära filerna med mätvärden mm.
+# Sedan läser vi in första byten för att kolla hur många kanaler enheten har. Om noll bryts loopen.
+# Vi hoppar 12 bytes fram i filen, förbi Id och tid. Läser in (6 * antal kanaler)      
 def get_channels(meter):
     with open(f"{path_to_project}{meter}.bin", "rb") as file_val:
         channels = {}
