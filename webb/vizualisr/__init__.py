@@ -1,4 +1,3 @@
-from os import truncate
 from flask import Flask, render_template, flash
 import datetime
 import struct
@@ -31,7 +30,7 @@ def get_meters():
     
 def get_channels(meter):
     with open(f"{path_to_project}{meter}.bin", "rb") as file_val:
-        channels = []
+        channels = {}
         while True:
             num_channels = int.from_bytes(file_val.read(1), "big")
             if num_channels is 0:
@@ -40,8 +39,8 @@ def get_channels(meter):
             data = file_val.read(6 * num_channels)
             for n in range(num_channels):
                 channel, val, unit = struct.unpack_from("!BiB", data, (6 * n))
-                if channel not in channels:
-                    channels.append(channel)
+                if channel not in channels.keys():
+                    channels[channel] = unit
         return channels
 
 # This is a placeholder that returns a fixed set of 
