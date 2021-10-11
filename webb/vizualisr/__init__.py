@@ -71,7 +71,10 @@ def get_measurements(meter, channel):
                 channel_index, value, unit = struct.unpack_from("!BiB", packet, (6 * n))
                 if channel_index == channel:
                     packets.append((time_sec, value, unit))
-
+    # Kollar längden på packets med num_packets, om de är mindre än 20 kommer itter vara number_packets.
+    # Annars ska vi bara läsa de 20 senaste meddelanden. Loopar igenom dessa baklänges för att få de senaste värderna.
+    # Delar Value med 1000 för att få rätt mätvärde.
+    # Sist läggs de in i en lista med append.
     measurements = []
     num_packets = len(packets)
     if num_packets < 20:
