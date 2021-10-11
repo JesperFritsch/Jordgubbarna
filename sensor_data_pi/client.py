@@ -1,4 +1,3 @@
-
 import paho.mqtt.client as mqtt
 import time 
 import random
@@ -13,6 +12,8 @@ pin = 23
 dht11 = Adafruit_DHT.DHT11
 random.seed()
 
+# Classes with functions that read sensores and saves it in value.
+# This is because they have diffrent ways of reading from the sensores.
 
 class Meter:
     def __init__(self, channel):
@@ -77,22 +78,26 @@ print(f"ID: {hex(id)}")
 
 # List of sensores that are connected to our pi.
 meters = []
+# calls function and sets channel.
 meters.append(Dht11Humid(0))
 meters.append(Dht11Temp(1))
 meters.append(TempMeter(2))
 
-# function that publish our data one time every minute.
+
 while True:
+# function that publish our data one time every minute.
     on_time = time.time_ns() % 60_000_000_000
     if on_time >= 0 and on_time <= 60_000_000:
         time_sec = int(time.time())
-        # firstly pack id and time to data.
+        # pack our id and time to data.
         data = struct.pack("!QI", id, time_sec)
-        # looking for how many meters we have the list
-        # loops threw all meters and gives them channel,value and unit.
+        # looking threw the list meters
         for meter in meters:
+            # gives value to meter
             meter.get_value()
+            # pack our channel, value and unit to meter_data.
             meter_data = struct.pack("!BiB", meter.channel, meter.value, meter.unit)
+            # puts our meter_data after our id and time in our bytearray.
             data += meter_data
 
     # publish the data to the topic yrgo/hrm/project/measurement/#
