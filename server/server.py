@@ -62,6 +62,7 @@ try:
     client.loop_forever()
     
 finally:
-    # Om allt i filen är läst stängs den.
+    # Det sista som sker innan programmet avslutas, kontrollerar så att "filpekare" inte är None.
+    # Dvs att den inte pekar på en öppen fil i så fall stängs den.
     if file_id != None:
         file_id.close()
