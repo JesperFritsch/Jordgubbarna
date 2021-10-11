@@ -5,4 +5,4 @@
 5. Om du har Pipenv: Kör kommandot: "pipenv install" Kör kommandot: "pipenv shell"
 6. Annars installera pipenv med hjälp av Pip: Kör kommandot: "pip install pipenv" följ sedan punkt 5.
 7. Kör sedan "pipenv shell"
-8. kör sedan "python3 server.py"
+8. Kör sedan "python3 server.py"
